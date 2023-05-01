@@ -44,10 +44,10 @@ class DiagramView @JvmOverloads constructor(
             lineWidth = getDimension(R.styleable.DiagramView_lineWidth, lineWidth.toFloat()).toInt()
 
             colors = listOf(
-                getColor(R.styleable.DiagramView_colorTopLeft, generateRandomColor()),
                 getColor(R.styleable.DiagramView_colorTopRight, generateRandomColor()),
+                getColor(R.styleable.DiagramView_colorBottomRight, generateRandomColor()),
                 getColor(R.styleable.DiagramView_colorBottomLeft, generateRandomColor()),
-                getColor(R.styleable.DiagramView_colorBottomRight, generateRandomColor())
+                getColor(R.styleable.DiagramView_colorTopLeft, generateRandomColor())
             )
         }
     }
@@ -55,9 +55,8 @@ class DiagramView @JvmOverloads constructor(
     private val paintArc = Paint(
         Paint.ANTI_ALIAS_FLAG
     ).apply {
-        strokeWidth = lineWidth.toFloat()
         style = Paint.Style.STROKE
-        strokeJoin = Paint.Join.ROUND
+        strokeWidth = lineWidth.toFloat()
         strokeCap = Paint.Cap.ROUND
     }
 
@@ -82,13 +81,16 @@ class DiagramView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (data.isEmpty()) return
-        var startAngle = 180f
+        var startAngle = -90f
         data.forEachIndexed { index, data ->
             val angle = data * 360f
             paintArc.color = colors.getOrElse(index) { generateRandomColor() }
             canvas.drawArc(oval, startAngle, angle, false, paintArc)
             startAngle += angle
         }
+
+        paintArc.color = colors.first()
+        canvas.drawCircle(center.x, center.y - radius, 1f, paintArc)
 
         canvas.drawText(
             "%.2f%%".format(data.sum() * 100),
