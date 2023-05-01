@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DiagramView">
+        <attr name="textSize" format="dimension|reference" />
+        <attr name="lineWidth" format="dimension|reference" />
+        <attr name="colorTopLeft" format="color|reference" />
+        <attr name="colorTopRight" format="color|reference" />
+        <attr name="colorBottomLeft" format="color|reference" />
+        <attr name="colorBottomRight" format="color|reference" />
+    </declare-styleable>
+</resources>
