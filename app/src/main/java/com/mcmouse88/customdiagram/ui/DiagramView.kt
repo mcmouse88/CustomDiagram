@@ -30,7 +30,11 @@ class DiagramView @JvmOverloads constructor(
 
     var data: List<Float> = emptyList()
         set(value) {
-            field = value
+            val sum = value.sum()
+            val percentList = value.map {
+                it / sum
+            }
+            field = percentList
             invalidate()
         }
 
