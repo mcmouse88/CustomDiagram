@@ -7,6 +7,22 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/diagram"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Hello World!"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:textColor="?colorSurface"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        android:fontFamily="casual" />
+
     <com.mcmouse88.customdiagram.ui.DiagramView
         android:id="@+id/diagram"
         android:layout_width="300dp"
@@ -21,5 +37,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/animateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/animate"
+        android:minWidth="150dp"
+        android:textColor="?colorOnSurface"
+        app:layout_constraintTop_toBottomOf="@id/diagram"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
