@@ -1,6 +1,5 @@
 package com.mcmouse88.customdiagram.ui
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -8,7 +7,6 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.LinearInterpolator
 import androidx.core.content.withStyledAttributes
 import com.mcmouse88.customdiagram.R
 import com.mcmouse88.customdiagram.utils.AndroidUtils
@@ -31,18 +29,19 @@ class DiagramView @JvmOverloads constructor(
 
     private var progress = 1f
     private var angle = -90f
-    private var animator: ValueAnimator? = null
-    private var rotateAnimator: ValueAnimator? = null
 
-
-    var data: List<Float> = emptyList()
+    var data: List<Float> = listOf(
+        0.25f,
+        0.25f,
+        0.25f,
+        0.25f
+    )
         set(value) {
             val sum = value.sum()
             val percentList = value.map {
                 it / sum
             }
             field = percentList
-            update()
             invalidate()
         }
 
@@ -104,35 +103,6 @@ class DiagramView @JvmOverloads constructor(
             center.y + paintText.textSize / 4,
             paintText
         )
-    }
-
-    fun update() {
-        animator?.let {
-            it.removeAllUpdateListeners()
-            it.cancel()
-        }
-
-        progress = 0f
-
-        animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            addUpdateListener { anim ->
-                progress = anim.animatedValue as Float
-                invalidate()
-            }
-            duration = 5_000
-            interpolator = LinearInterpolator()
-            start()
-        }
-
-        rotateAnimator = ValueAnimator.ofFloat(-90f, 270f).apply {
-            addUpdateListener { anim ->
-                angle = anim.animatedValue as Float
-                invalidate()
-            }
-            duration = 5_000
-            interpolator = LinearInterpolator()
-            start()
-        }
     }
 
     private fun generateRandomColor(): Int {

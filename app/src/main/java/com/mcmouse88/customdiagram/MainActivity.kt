@@ -1,26 +1,27 @@
 package com.mcmouse88.customdiagram
 
+import android.animation.LayoutTransition
 import android.os.Bundle
+import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.mcmouse88.customdiagram.ui.DiagramView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val diagram = findViewById<DiagramView>(R.id.diagram)
         val button = findViewById<Button>(R.id.animateButton)
-        diagram.data = listOf(
-            500f,
-            500f,
-            500f,
-            500f
-        )
+        val root = findViewById<ViewGroup>(R.id.root)
+        root.layoutTransition = LayoutTransition().apply {
+            setDuration(2_000L)
+            setInterpolator(LayoutTransition.CHANGE_APPEARING, BounceInterpolator())
+        }
 
         button.setOnClickListener {
-            diagram.update()
+            val view = layoutInflater.inflate(R.layout.diagram_view, root, false)
+            root.addView(view, 0)
         }
     }
 }
