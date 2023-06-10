@@ -1,42 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/diagram"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Hello World!"
-        android:layout_marginHorizontal="16dp"
-        android:gravity="center"
-        android:textColor="?colorSurface"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        android:fontFamily="casual" />
+    <FrameLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.mcmouse88.customdiagram.ui.DiagramView
-        android:id="@+id/diagram"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:textSize="40sp"
-        app:lineWidth="16dp"
-        app:colorTopLeft="#0000FF"
-        app:colorTopRight="#00FF00"
-        app:colorBottomLeft="#FF0000"
-        app:colorBottomRight="#FFFF00"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/start_scene" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/animateButton"
@@ -45,10 +21,7 @@
         android:text="@string/animate"
         android:minWidth="150dp"
         android:textColor="?colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/diagram"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="24dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
