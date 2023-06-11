@@ -1,5 +1,6 @@
 package com.mcmouse88.customdiagram.ui
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -7,6 +8,7 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.core.content.withStyledAttributes
 import com.mcmouse88.customdiagram.R
 import com.mcmouse88.customdiagram.utils.AndroidUtils
@@ -27,6 +29,11 @@ class DiagramView @JvmOverloads constructor(
     private var textSize = AndroidUtils.dp(context, 20).toFloat()
     private var colors = emptyList<Int>()
 
+    private var progress = 1f
+    private var angle = -90f
+    private var animator: ValueAnimator? = null
+    private var rotateAnimator: ValueAnimator? = null
+
 
     var data: List<Float> = emptyList()
         set(value) {
@@ -35,6 +42,7 @@ class DiagramView @JvmOverloads constructor(
                 it / sum
             }
             field = percentList
+            update()
             invalidate()
         }
 
@@ -81,16 +89,14 @@ class DiagramView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (data.isEmpty()) return
-        var startAngle = -90f
         data.forEachIndexed { index, data ->
             val angle = data * 360f
             paintArc.color = colors.getOrElse(index) { generateRandomColor() }
-            canvas.drawArc(oval, startAngle, angle, false, paintArc)
-            startAngle += angle
+            canvas.drawArc(oval, this.angle, angle * progress, false, paintArc)
+            this.angle += angle
         }
 
         paintArc.color = colors.first()
-        canvas.drawCircle(center.x, center.y - radius, 1f, paintArc)
 
         canvas.drawText(
             "%.2f%%".format(data.sum() * 100),
@@ -98,6 +104,35 @@ class DiagramView @JvmOverloads constructor(
             center.y + paintText.textSize / 4,
             paintText
         )
+    }
+
+    fun update() {
+        animator?.let {
+            it.removeAllUpdateListeners()
+            it.cancel()
+        }
+
+        progress = 0f
+
+        animator = ValueAnimator.ofFloat(0f, 1f).apply {
+            addUpdateListener { anim ->
+                progress = anim.animatedValue as Float
+                invalidate()
+            }
+            duration = 5_000
+            interpolator = LinearInterpolator()
+            start()
+        }
+
+        rotateAnimator = ValueAnimator.ofFloat(-90f, 270f).apply {
+            addUpdateListener { anim ->
+                angle = anim.animatedValue as Float
+                invalidate()
+            }
+            duration = 5_000
+            interpolator = LinearInterpolator()
+            start()
+        }
     }
 
     private fun generateRandomColor(): Int {

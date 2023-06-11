@@ -1,7 +1,8 @@
 package com.mcmouse88.customdiagram
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.mcmouse88.customdiagram.ui.DiagramView
 
 class MainActivity : AppCompatActivity() {
@@ -9,11 +10,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<DiagramView>(R.id.diagram).data = listOf(
+        val diagram = findViewById<DiagramView>(R.id.diagram)
+        val button = findViewById<Button>(R.id.animateButton)
+        diagram.data = listOf(
             500f,
             500f,
             500f,
             500f
         )
+
+        button.setOnClickListener {
+            diagram.update()
+        }
     }
 }
